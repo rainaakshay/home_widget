@@ -1,32 +1,13 @@
 group 'es.antonborri.home_widget'
 version '1.0-SNAPSHOT'
 
-buildscript {
-    ext.kotlin_version = '1.8.0'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-rootProject.allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
     namespace "es.antonborri.home_widget"
+    compileSdkVersion 34
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -36,8 +17,18 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+
+    // This block fixes the "Inconsistent JVM-target" error
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+
+    // This aligns the Kotlin target as well
+    kotlinOptions {
+        jvmTarget = '21'
+    }
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
+// The dependency on the Kotlin standard library is now handled automatically
+// by the modern Kotlin plugin from your main project, so it's not needed here.
